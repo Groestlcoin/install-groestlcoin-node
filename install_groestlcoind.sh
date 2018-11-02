@@ -2,7 +2,7 @@
 
 # Adapted from: https://www.ndchost.com/wiki/how-to-install-bitcoin-on-centos-7
 
-BITCOIN_TAG="v0.16.0"
+GROESTLCOIN_TAG="v2.16.3"
 
 # Install the EPEL repository
 sudo yum install -y epel-release
@@ -14,8 +14,8 @@ sudo yum install -y \
     boost-devel \
     gcc-c++ \
     git \
-    libdb4-cxx \
-    libdb4-cxx-devel \
+    libdb-cxx \
+    libdb-cxx-devel \
     libevent-devel \
     libtool \
     openssl-devel \
@@ -37,18 +37,18 @@ export CFLAGS="-fPIC"
 make all
 sudo make install
 
-# Download and compile bitcoin
+# Download and compile groestlcoin
 cd ~
-git clone https://github.com/bitcoin/bitcoin.git
-cd ~/bitcoin
-git checkout ${BITCOIN_TAG}
+git clone https://github.com/groestlcoin/groestlcoin.git
+cd ~/groestlcoin
+git checkout ${GROESTLCOIN_TAG}
 ./autogen.sh
-./configure --without-gui --disable-wallet --prefix=/opt/bitcoin-${BITCOIN_TAG} PKG_CONFIG_PATH=/opt/openssl/lib/pkgconfig LIBS=-Wl,-rpath,/opt/openssl/lib
+./configure --without-gui --disable-wallet --prefix=/opt/groestlcoin-${GROESTLCOIN_TAG} PKG_CONFIG_PATH=/opt/openssl/lib/pkgconfig LIBS=-Wl,-rpath,/opt/openssl/lib
 make
 sudo make install
 
 cd ~
-rm -rf bitcoin openssl
+rm -rf groestlcoin openssl
 
-sudo ln -s /opt/bitcoin-${BITCOIN_TAG}/bin/bitcoind /usr/bin/bitcoind
-sudo ln -s /opt/bitcoin-${BITCOIN_TAG}/bin/bitcoin-cli /usr/bin/bitcoin-cli
+sudo ln -s /opt/groestlcoin-${GROESTLCOIN_TAG}/bin/groestlcoind /usr/bin/groestlcoind
+sudo ln -s /opt/groestlcoin-${GROESTLCOIN_TAG}/bin/groestlcoin-cli /usr/bin/groestlcoin-cli
